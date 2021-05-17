@@ -21,35 +21,35 @@ import com.parkingSystem.entity.Vehicle;
 public class VehicleController {
 
 	@Autowired
-	BaseClient baseclient;
+	BaseClient baseClient;
 
 	// get all vehicles Details
 	@GetMapping(value = "/vehicles")
 	public List<Vehicle> displayDeatils() {
-		return baseclient.displayDetails();
+		return baseClient.displayDetails();
 	}
 
 	// get detail of particular vehicle
 	@GetMapping(value = "/vehicles/{registrationNumber}")
 	public Vehicle vehicle(@PathVariable String registrationNumber) {
-		return baseclient.displayDetails(registrationNumber);
+		return baseClient.displayDetails(registrationNumber);
 	}
 
 	// add vehicle details
 	@PostMapping(value = "/addVehicle")
 	public Vehicle addVehicle(@RequestBody Vehicle vehicle) {
-		return baseclient.addDetails(vehicle);
+		return baseClient.addDetails(vehicle);
 	}
 
 	// update vehicle details
 	@PutMapping("/vehciles/{registrationNumber}")
 	public Vehicle updateVehicle(@RequestBody Vehicle vehicle, @PathVariable String registrationNumber) {
-		return this.baseclient.updateDetails(vehicle, registrationNumber);
+		return this.baseClient.updateDetails(vehicle, registrationNumber);
 	}
 
 	// delete vehicle details
 	@DeleteMapping(value = "/vehicles/{registrationNumber}")
 	public Vehicle deleteVehicle(@PathVariable String registrationNumber) {
-		return this.baseclient.deleteDetails(registrationNumber);
+		return this.baseClient.deleteDetails(registrationNumber);
 	}
 }
