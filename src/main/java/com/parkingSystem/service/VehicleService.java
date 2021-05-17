@@ -1,54 +1,68 @@
-package com.parkingSystem.service;
+package com.parkingSystem.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import com.parkingSystem.entity.Vehicle;
-import com.parkingSystem.repository.VehicleRepository;
 
 @Service
-public class VehicleService {
+public class VehicleService implements BaseClient {
 
-	@Autowired
-	VehicleRepository vehicleRepository;
+	List<Vehicle> list;
 
-	// add vehicle
-	public Vehicle addVehicleDetails(Vehicle vehicle) {
-		vehicleRepository.save(vehicle);
-		return vehicle;
-	}
-
-	// get all vehicle details
-	public List<Vehicle> getVehicleDetails() {
-		List<Vehicle> vehicleList = vehicleRepository.findAll();
-		return vehicleList;
+	public VehicleService() {
+		list = new ArrayList<>();
+		list.add(new Vehicle("MH12AC1213", "RED"));
 
 	}
 
-	// update vehicle details
-	public Vehicle updateVehicleDetails(Vehicle vehicle, int id) {
-		Optional<Vehicle> uservehicle = vehicleRepository.findById(id);
-		vehicle.setId(uservehicle.get().getId());
-		vehicleRepository.save(vehicle);
-		return vehicle;
-
+	@Override
+	public List<Vehicle> displayDetails() {
+		return list;
 	}
 
-	// delete vehicle details
-	public String deleteByVehicleId(int id) {
-		try {
-			Optional<Vehicle> vehicles = vehicleRepository.findById(id);
-			Vehicle vehicle = vehicles.get();
-			vehicleRepository.deleteById(id);
-			return ("vehicle deleted" + vehicle.toString());
-
-		} catch (Exception e) {
-			return "Not found";
+	@Override
+	public Vehicle displayDetails(String registrationNumber) {
+		Vehicle vehicle = null;
+		for (Vehicle vehicles : list) {
+			if (vehicles.getRegistrationNumber().equalsIgnoreCase(registrationNumber)) {
+				vehicle = vehicles;
+				break;
+			}
 		}
+		return vehicle;
 	}
 
+	@Override
+	public Vehicle addDetails(Vehicle vehicle) {
+		list.add(vehicle);
+		return vehicle;
+	}
+
+	@Override
+	public Vehicle updateDetails(Vehicle vehicle, String registrationNumber) {
+		for (Vehicle vehicles : list) {
+			if (vehicles.getRegistrationNumber().equalsIgnoreCase(registrationNumber)) {
+				vehicles.setRegistrationNumber(vehicle.getRegistrationNumber());
+				vehicles.setColor(vehicle.getColor());
+				break;
+			}
+
+		}
+		return vehicle;
+	}
+
+	@Override
+	public Vehicle deleteDetails(String registrationNumber) {
+		Vehicle vehicle = null;
+		for (Vehicle vehicles : list) {
+			if (vehicles.getRegistrationNumber().equalsIgnoreCase(registrationNumber)) {
+				System.out.println("in update if ");
+				list.clear();
+				break;
+			}
+
+		}
+		return vehicle;
+	}
 }

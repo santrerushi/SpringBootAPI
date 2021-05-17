@@ -1,34 +1,12 @@
 package com.parkingSystem.entity;
 
-import javax.persistence.Column;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import org.springframework.stereotype.Component;
-
-@Entity
-@Component
-@Table(name = "parking_system")
 public class Vehicle {
-
-	@Id
-	@Column(name = "Id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int Id;
-	@Column(name = "registrationNumber")
 	String registrationNumber;
-	@Column(name = "Color")
 	String color;
 
-	public int getId() {
-		return Id;
-	}
-
-	public void setId(int id) {
-		Id = id;
+	public Vehicle(String registrationNumber, String color) {
+		this.registrationNumber = registrationNumber;
+		this.color = color;
 	}
 
 	public String getRegistrationNumber() {
@@ -49,7 +27,7 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "Vehicle [Id=" + Id + ", registrationNumber=" + registrationNumber + ", color=" + color + "]";
+		return "Vehicle [registrationNumber=" + registrationNumber + ", color=" + color + "]";
 	}
 
 }
