@@ -2,7 +2,10 @@ package com.parkingSystem.controller;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,43 +13,45 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.parkingSystem.Service.BaseClient;
 import com.parkingSystem.entity.Vehicle;
+import com.parkingSystem.service.VehicleService;
 
 @RestController
 public class VehicleController {
-
+	
 	@Autowired
-	BaseClient baseClient;
-
-	// get all vehicles Details
-	@GetMapping(value = "/vehicles")
-	public List<Vehicle> displayDeatils() {
-		return baseClient.displayDetails();
-	}
-
-	// get detail of particular vehicle
-	@GetMapping(value = "/vehicles/{registrationNumber}")
-	public Vehicle vehicle(@PathVariable String registrationNumber) {
-		return baseClient.displayDetails(registrationNumber);
-	}
-
-	// add vehicle details
+	VehicleService vehicleService;
+	
+	// add vehicle
 	@PostMapping(value = "/vehicles")
-	public Vehicle addVehicle(@RequestBody Vehicle vehicle) {
-		return baseClient.addDetails(vehicle);
+	public ResponseEntity<Vehicle> addVehicleDetails(@RequestBody Vehicle vehicle) {
+		vehicleService.addVehicleDetails(vehicle);
+		return new ResponseEntity<Vehicle>(vehicle, HttpStatus.OK);
+	}
+	
+	// get all vehicle
+	@GetMapping(value = "/vehicles")
+	public List<Vehicle> getAllVehicle() {
+		return vehicleService.getVehicleDetails();
+	}
+	
+	//update vehicle
+	//update
+	@PutMapping("/vehicles/{id}")
+	public Vehicle updateVehicleDetails(@PathVariable String id, @RequestBody Vehicle vehicle) {
+		return this.vehicleService.updateVehicleDetails(id, vehicle);
+
+	}
+	
+	//delete vehicle
+	@DeleteMapping("/vehicles/{id}")
+	public ResponseEntity<String> deleteVehicleInfoFromDatabase(@PathVariable String id) {
+		try {
+			this.vehicleService.deleteVehicleDetails(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
-	// update vehicle details
-	@PutMapping(value="/vehicles/{registrationNumber}")
-	public Vehicle updateVehicle(@RequestBody Vehicle vehicle, @PathVariable String registrationNumber) {
-		return this.baseClient.updateDetails(vehicle, registrationNumber);
-	}
-
-	// delete vehicle details
-	@DeleteMapping(value = "/vehicles/{registrationNumber}")
-	public Vehicle deleteVehicle(@PathVariable String registrationNumber) {
-		return this.baseClient.deleteDetails(registrationNumber);
-	}
 }

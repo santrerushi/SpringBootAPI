@@ -1,12 +1,24 @@
 package com.parkingSystem.entity;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
+import org.springframework.data.annotation.Id;
+
+@Component
+@Document(collection = "parkingsystem")
 public class Vehicle {
+
+	@Id
+	String id;
 	String registrationNumber;
 	String color;
 
-	public Vehicle(String registrationNumber, String color) {
-		this.registrationNumber = registrationNumber;
-		this.color = color;
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getRegistrationNumber() {
@@ -27,7 +39,7 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "Vehicle [registrationNumber=" + registrationNumber + ", color=" + color + "]";
+		return "Vehicle [Id=" + id + ", registrationNumber=" + registrationNumber + ", color=" + color + "]";
 	}
 
 }
