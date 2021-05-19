@@ -2,7 +2,6 @@ package com.parkingSystem.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.parkingSystem.entity.Vehicle;
 import com.parkingSystem.service.VehicleService;
 
@@ -34,16 +34,15 @@ public class VehicleController {
 	public List<Vehicle> getAllVehicle() {
 		return vehicleService.getVehicleDetails();
 	}
-	
-	//update vehicle
-	//update
+
+	// update vehicle
 	@PutMapping("/vehicles/{id}")
 	public Vehicle updateVehicleDetails(@PathVariable String id, @RequestBody Vehicle vehicle) {
 		return this.vehicleService.updateVehicleDetails(id, vehicle);
 
 	}
-	
-	//delete vehicle
+
+	// delete vehicle
 	@DeleteMapping("/vehicles/{id}")
 	public ResponseEntity<String> deleteVehicleInfoFromDatabase(@PathVariable String id) {
 		try {
@@ -53,5 +52,6 @@ public class VehicleController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 
 }

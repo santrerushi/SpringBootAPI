@@ -2,54 +2,47 @@ package com.parkingSystem.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Service;
 import com.parkingSystem.entity.Vehicle;
+import com.parkingSystem.repository.VehicleRepository;
 
 @Service
 public class VehicleServiceImplementation implements VehicleService{
 	
 	@Autowired
-	private MongoRepository<Vehicle, String> mongoRepository;
-	
+	VehicleRepository vehicleRepository;
 
 	@Override
 	public List<Vehicle> getVehicleDetails() {
-		return mongoRepository.findAll();
+		
+		return (List<Vehicle>) vehicleRepository.findAll();
 	}
 
 	@Override
 	public Vehicle addVehicleDetails(Vehicle vehicle) {
-		mongoRepository.save(vehicle);
+		vehicleRepository.save(vehicle);
 		return vehicle;
 	}
 
 	@Override
 	public Vehicle updateVehicleDetails(String id, Vehicle vehicleDetails) {
-		Optional<Vehicle> optionalVehicle=mongoRepository.findById(id);
+		Optional<Vehicle> optionalVehicle=vehicleRepository.findById(id);
 		Vehicle updateVehicle=optionalVehicle.get();
-		//todo
-		System.out.println(updateVehicle.toString());
-		
 		updateVehicle.setRegistrationNumber(vehicleDetails.getRegistrationNumber());
 		updateVehicle.setColor(vehicleDetails.getColor());
-		mongoRepository.save(updateVehicle);
+		vehicleRepository.save(updateVehicle);
 		
 		return updateVehicle;
- 
+	}
+
+	@Override
+	public Vehicle deleteVehicleDetails(String id) {
+		Optional<Vehicle> deleteVehicle=vehicleRepository.findById(id);
+		Vehicle deletedVehicle=deleteVehicle.get();
+		vehicleRepository.delete(deletedVehicle);
+		return deletedVehicle;
 		
 	}
 
-	
-	public Vehicle deleteVehicleDetails(String id)  {
-		Optional<Vehicle> entity=mongoRepository.findById(id);
-		Vehicle vehicle=entity.get();
-		mongoRepository.delete(vehicle);
-
-		return vehicle;
-		
-	}
 }
-
