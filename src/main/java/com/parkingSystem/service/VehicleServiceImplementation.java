@@ -30,16 +30,10 @@ public class VehicleServiceImplementation implements VehicleService{
 	public Vehicle updateVehicleDetails(String id, Vehicle vehicleDetails) {
 		Optional<Vehicle> optionalVehicle=mongoRepository.findById(id);
 		Vehicle updateVehicle=optionalVehicle.get();
-		//todo
-		System.out.println(updateVehicle.toString());
-		
 		updateVehicle.setRegistrationNumber(vehicleDetails.getRegistrationNumber());
 		updateVehicle.setColor(vehicleDetails.getColor());
 		mongoRepository.save(updateVehicle);
-		
 		return updateVehicle;
- 
-		
 	}
 
 	
@@ -47,7 +41,6 @@ public class VehicleServiceImplementation implements VehicleService{
 		Optional<Vehicle> entity=mongoRepository.findById(id);
 		Vehicle vehicle=entity.get();
 		mongoRepository.delete(vehicle);
-
 		return vehicle;
 		
 	}
